@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSME Molecular Editor</title>
+    <!-- Load JSME JavaScript -->
+    <script src="jsme.nocache.js"></script>
+    <script src="qwebchannel.js"></script> <!-- Ensure you have QWebChannel JS -->
+
+    <script>
+        var jsmeApplet;
+        var bridge;
+
+        function jsmeOnLoad() {
+            try {
+                // Initialize JSME applet
+                jsmeApplet = new JSME("jsme_container", "400px", "400px");
+                // Set callback for structure changes
+                jsmeApplet.setAfterStructureModifiedCallback(function () {
+                    const smiles = jsmeApplet.smiles();
+                    // Send the updated SMILES string to Python
+                    bridge.updateSmiles(smiles);
+                });
+            } catch (error) {
+                console.error("Error initializing JSME applet:", error);
+            }
+        }
+
+        // Initialize the QWebChannel for communication
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            bridge = channel.objects.bridge; // Connect to the Python bridge
+        });
+    </script>
+</head>
+
+<body onload="jsmeOnLoad()">
+    <div id="jsme_container"></div>
+</body>
+
+</html>
+
