@@ -1,0 +1,54 @@
+<!<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSME Molecular Editor</title>
+    <!-- Load JSME JavaScript -->
+    <script src="jsme.nocache.js"></script>
+
+    <script>
+        var jsmeApplet;
+
+        function jsmeOnLoad() {
+            try {
+                // Try initializing using JSME
+                jsmeApplet = new JSME("jsme_container", "450px", "450px");
+            } catch (e1) {
+                try {
+                    // Fallback to JSApplet if JSME is not available
+                    jsmeApplet = new JSApplet.JSME("jsme_container", "450px", "450px");
+                } catch (e2) {
+                    console.error("Error initializing JSME applet:", e1, e2);
+                }
+            }
+        }
+
+        function getSmiles() {
+            if (jsmeApplet) {
+                return jsmeApplet.smiles();
+            } else {
+                console.error("JSME applet not initialized");
+                return "";
+            }
+        }
+
+        function getSmarts() {
+            if (jsmeApplet) {
+                // Convert the current molecule to SMARTS
+                return jsmeApplet.smarts();
+            } else {
+                console.error("JSME applet not initialized");
+                return "";
+            }
+        }
+    </script>
+</head>
+
+<body onload="jsmeOnLoad()">
+    <div id="jsme_container"></div>
+</body>
+
+</html>
+
