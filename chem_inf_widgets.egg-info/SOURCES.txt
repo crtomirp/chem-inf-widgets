@@ -1,0 +1,15 @@
+LICENSE
+README.md
+setup.py
+chem_inf_widgets/__init__.py
+chem_inf_widgets/maccsgenerator.py
+chem_inf_widgets/molviewer.py
+chem_inf_widgets/sdfreader.py
+chem_inf_widgets/standardizer.py
+chem_inf_widgets/substructuresearch.py
+chem_inf_widgets.egg-info/PKG-INFO
+chem_inf_widgets.egg-info/SOURCES.txt
+chem_inf_widgets.egg-info/dependency_links.txt
+chem_inf_widgets.egg-info/entry_points.txt
+chem_inf_widgets.egg-info/requires.txt
+chem_inf_widgets.egg-info/top_level.txt

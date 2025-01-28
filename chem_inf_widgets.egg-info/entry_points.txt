@@ -1,0 +1,2 @@
+[orange.widgets]
+Chemoinformatics = chem_inf_widgets
