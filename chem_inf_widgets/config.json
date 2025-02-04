@@ -1,0 +1,15 @@
+{
+    "fields": [
+        {"name": "smiles", "label": "SMILES"},
+        {"name": "mw", "label": "Molecular Weight"},
+        {"name": "logp", "label": "LogP"},
+        {"name": "hbd", "label": "H-Bond Donors"},
+        {"name": "inchi", "label": "InChI"},
+        {"name": "inchikey", "label": "InChI Key"}
+    ],
+    "user_metadata": [
+        {"name": "catalog_number", "label": "Catalog Number"},
+        {"name": "batch_id", "label": "Batch ID"},
+        {"name": "Name", "label": "name"}
+    ]
+}
