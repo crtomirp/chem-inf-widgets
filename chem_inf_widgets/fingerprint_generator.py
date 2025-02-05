@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 class FingerprintWidget(widget.OWWidget):
-    name = "Molecular Fingerprint Calculator"
+    name = "Fingerprint Calculator"
     description = "Computes molecular fingerprints using RDKit and provides visualizations."
-    icon = "icons/fingerprint.svg"
+    icon = "icons/fingerprint.png"
     priority = 10
 
     inputs = [("Molecule Data", Table, "set_data")]
