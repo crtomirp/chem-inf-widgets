@@ -4,7 +4,7 @@ from Orange.widgets import gui
 from rdkit import Chem
 from rdkit.Chem.MolStandardize import rdMolStandardize
 import numpy as np
-from PyQt5.QtWidgets import QCheckBox, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QCheckBox, QPushButton
 
 class StandardizeMoleculesWidget(OWWidget):
     name = "Molecular Standardization"
@@ -60,7 +60,7 @@ class StandardizeMoleculesWidget(OWWidget):
     def update_selected_operations(self):
         """Update selected operations based on checkbox states."""
         self.selected_operations = {name for name, cb in self.checkboxes.items() if cb.isChecked()}
-        self.info_label.setText(f"Selected operations: {', '.join(self.selected_operations) or 'None'}")
+        self.info_label.setText(f"Selected operations: {'\n '.join(self.selected_operations) or 'None'}")
 
     def set_data(self, data):
         """Handle the input data."""
@@ -80,53 +80,59 @@ class StandardizeMoleculesWidget(OWWidget):
 
         # Find the index of the SMILES column in metas
         try:
-            smiles_index = self.data.domain.metas.index(next(meta for meta in self.data.domain.metas if meta.name == smiles_column_name))
+            smiles_index = self.data.domain.metas.index(
+                next(meta for meta in self.data.domain.metas if meta.name == smiles_column_name)
+            )
         except StopIteration:
-            self.info_label.setText(f"Column '{smiles_column_name}' not found in input data metas. Please ensure the correct column name.")
+            self.info_label.setText(
+                f"Column '{smiles_column_name}' not found in input data metas. Please ensure the correct column name."
+            )
             return
 
         smiles_column = self.data.metas[:, smiles_index]
         standardized_smiles = []
         change_logs = []
 
-        for smile in smiles_column:
+        # Initialize progress bar with the number of SMILES entries.
+        self.progressBarInit(len(smiles_column))
+
+        for i, smile in enumerate(smiles_column):
             try:
                 mol = Chem.MolFromSmiles(smile)
-                original_smile = smile
                 log_entries = []
                 if mol:
                     for operation in self.selected_operations:
                         initial_smile = Chem.MolToSmiles(mol) if mol else ""
                         if operation == "ValidateSmiles":
                             rdMolStandardize.ValidateSmiles(smile)
-                            log_entries.append("Validation passed.")
+                            log_entries.append("Validation passed.\n")
                         elif operation == "Cleanup":
                             mol = rdMolStandardize.Cleanup(mol)
-                            log_entries.append("Cleanup applied.")
+                            log_entries.append("Cleanup applied.\n")
                         elif operation == "Normalize":
                             normalizer = rdMolStandardize.Normalizer()
                             mol = normalizer.normalize(mol)
-                            log_entries.append("Normalization applied.")
+                            log_entries.append("Normalization applied.\n")
                         elif operation == "MetalDisconnector":
                             disconnector = rdMolStandardize.MetalDisconnector()
                             mol = disconnector.Disconnect(mol)
-                            log_entries.append("Metal disconnection applied.")
+                            log_entries.append("Metal disconnection applied.\n")
                         elif operation == "LargestFragmentChooser":
                             chooser = rdMolStandardize.LargestFragmentChooser()
                             mol = chooser.choose(mol)
-                            log_entries.append("Largest fragment chosen.")
+                            log_entries.append("Largest fragment chosen.\n")
                         elif operation == "Reionizer":
                             reionizer = rdMolStandardize.Reionizer()
                             mol = reionizer.reionize(mol)
-                            log_entries.append("Reionization applied.")
+                            log_entries.append("Reionization applied.\n")
                         elif operation == "Uncharger":
                             uncharger = rdMolStandardize.Uncharger()
                             mol = uncharger.uncharge(mol)
-                            log_entries.append("Uncharging applied.")
+                            log_entries.append("Uncharging applied.\n")
                         elif operation == "Tautomer":
                             enumerator = rdMolStandardize.TautomerEnumerator()
                             mol = enumerator.Canonicalize(mol)
-                            log_entries.append("Tautomer standardization applied.")
+                            log_entries.append("Tautomer standardization applied.\n")
 
                         final_smile = Chem.MolToSmiles(mol) if mol else ""
                         if initial_smile != final_smile:
@@ -142,6 +148,11 @@ class StandardizeMoleculesWidget(OWWidget):
                 log_entries.append(f"Error: {e}")
 
             change_logs.append(" | ".join(log_entries))
+            # Update the progress bar after each SMILES is processed
+            self.progressBarSet(i + 1)
+
+        # Finish and clear the progress bar
+        self.progressBarFinished()
 
         self.create_output_table(smiles_column, standardized_smiles, change_logs)
 
@@ -152,7 +163,10 @@ class StandardizeMoleculesWidget(OWWidget):
             StringVariable("SMILES"),
             StringVariable("Change Log")
         ])
-        metas = [[original, standardized, log] for original, standardized, log in zip(smiles_column, standardized_smiles, change_logs)]
+        metas = [
+            [original, standardized, log]
+            for original, standardized, log in zip(smiles_column, standardized_smiles, change_logs)
+        ]
 
         # Ensure X is an empty array if no attributes exist
         X = np.empty((len(metas), 0))
@@ -169,4 +183,3 @@ if __name__ == "__main__":
     widget = StandardizeMoleculesWidget()
     widget.show()
     sys.exit(app.exec_())
-
