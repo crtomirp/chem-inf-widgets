@@ -25,7 +25,7 @@ class CustomWebEnginePage(QWebEnginePage):
 class OWJSMEMolecularSketcher(widget.OWWidget):
     name = "DB MolSketcher"
     description = "JSME-based molecular editor for DataBase creation"
-    icon = "icons/molsketcher2db.png"
+    icon = "icons/molsketcher.png"
     priority = 10
     keywords = ["chemistry", "molecule", "sketcher"]
 
