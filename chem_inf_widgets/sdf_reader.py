@@ -34,6 +34,7 @@ class OWSDFReader(OWWidget):
 
         # Create GUI elements
         self.setup_ui()
+        self.mainArea.hide()  # Hides the main area
 
     def setup_ui(self):
         """Set up the user interface for the widget."""
