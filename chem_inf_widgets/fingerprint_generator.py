@@ -16,7 +16,7 @@ class FingerprintWidget(widget.OWWidget):
     outputs = [("Fingerprints", Table)]
 
     # User settings
-    fp_type = settings.Setting(0)  # Default to Morgan
+    fp_type = settings.Setting(0)  # Default to Morgan Fingerprint
     bit_size = settings.Setting(1024)
     radius = settings.Setting(2)
 
@@ -44,7 +44,7 @@ class FingerprintWidget(widget.OWWidget):
             self.compute_fingerprints()
     
     def compute_fingerprints(self):
-        """Computes selected fingerprint type for molecules in the dataset."""
+        """Computes selected fingerprint type for molecules in the dataset and displays a progress bar."""
         if self.data is None:
             return
         
@@ -70,7 +70,18 @@ class FingerprintWidget(widget.OWWidget):
         ]
         
         selected_fp_method, fp_name = fp_methods[self.fp_type]
-        fp_values = [selected_fp_method(mol) for mol in molecules if mol is not None]
+        fp_values = []
+        
+        # Initialize progress bar for fingerprint computation.
+        self.progressBarInit(len(molecules))
+        for i, mol in enumerate(molecules):
+            if mol is not None:
+                fp = selected_fp_method(mol)
+            else:
+                fp = None
+            fp_values.append(fp)
+            self.progressBarSet(i + 1)
+        self.progressBarFinished()
         
         if fp_values and all(fp is not None for fp in fp_values):
             process_fingerprint(fp_values, fp_name)
@@ -79,8 +90,14 @@ class FingerprintWidget(widget.OWWidget):
         
         if fingerprints:
             self.fingerprint_data = np.hstack(fingerprints)
-            domain = Domain([ContinuousVariable(name) for name in fingerprint_names], metas=[StringVariable("SMILES")])
-            fingerprint_table = Table(domain, self.fingerprint_data, metas=np.array([str(row[smiles_col]) for row in self.data], dtype=object).reshape(-1, 1))
+            domain = Domain([ContinuousVariable(name) for name in fingerprint_names],
+                            metas=[StringVariable("SMILES")])
+            fingerprint_table = Table(
+                domain,
+                self.fingerprint_data,
+                metas=np.array([str(row[smiles_col]) for row in self.data],
+                               dtype=object).reshape(-1, 1)
+            )
             self.send("Fingerprints", fingerprint_table)
     
     def show_histogram(self):
@@ -89,7 +106,8 @@ class FingerprintWidget(widget.OWWidget):
             bit_counts = np.sum(self.fingerprint_data, axis=0)
             top_indices = np.argsort(bit_counts)[-20:][::-1]
             plt.figure(figsize=(10, 5))
-            plt.bar(range(20), bit_counts[top_indices], tick_label=[f"{i}" for i in top_indices])
+            plt.bar(range(20), bit_counts[top_indices],
+                    tick_label=[f"{i}" for i in top_indices])
             plt.xlabel("Fingerprint Bit Index")
             plt.ylabel("Frequency")
             plt.title("Top 20 Most Frequent Fingerprint Bits")
