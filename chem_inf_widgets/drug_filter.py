@@ -1,69 +1,75 @@
-
-""" ===  1. Loading PAINS SMARTS from a JSON File === """
-
 import os
 import json
 import warnings
 from rdkit import Chem, RDLogger
+from rdkit.Chem import Descriptors, rdMolDescriptors
+from rdkit.Chem.QED import qed
+import numpy as np
+
+from Orange.widgets.widget import OWWidget, Input, Output
+from Orange.widgets import gui
+from Orange.data import Table, Domain, StringVariable, ContinuousVariable
+from PyQt5.QtWidgets import QCheckBox, QPushButton, QComboBox, QProgressBar
 
 # Suppress RDKit warnings
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 RDLogger.DisableLog('rdApp.warning')
 RDLogger.DisableLog('rdApp.error')
 
+
 def load_pains_smarts(filepath="smartspains.json"):
-    """Load PAINS SMARTS from a JSON file."""
+    """Load PAINS SMARTS and regID from a JSON file."""
     if not os.path.exists(filepath):
         print(f"⚠ Warning: PAINS file not found at {filepath}")
         return []
     try:
         with open(filepath, "r", encoding="utf-8") as jsonfile:
             pains_data = json.load(jsonfile)
-            smarts_list = [entry["SMARTS"] for entry in pains_data if "SMARTS" in entry]
-            print("✅ Loaded PAINS SMARTS:", smarts_list)  # Debug print
-            return smarts_list
+            return pains_data  # Expecting list of dicts with keys "SMARTS" and "regID"
     except Exception as e:
         print(f"❌ Error loading PAINS SMARTS: {e}")
         return []
 
-PAINS_SMARTS = load_pains_smarts()
 
-""" ===  2. Descriptor Calculation Functions === """
+PAINS_DATA = load_pains_smarts()
 
-def is_pains(mol):
-    """Check if molecule contains PAINS substructures."""
-    for smarts in PAINS_SMARTS:
-        pattern = Chem.MolFromSmarts(smarts)
-        if pattern is None:
-            print(f"⚠ Warning: Invalid PAINS SMARTS: {smarts}")
-            continue  # Skip invalid SMARTS
-        if mol.HasSubstructMatch(pattern):
-            print(f"🔬 PAINS detected: {smarts}")  # Debugging
-            return True
-    return False
 
-def get_highlighted_atoms(mol):
+def get_pains_matches(mol):
     """
-    For a given molecule, returns a sorted list of atom indices that
-    are part of any substructure match to the PAINS SMARTS.
+    Check for PAINS matches and return a list of matching regID values.
+    (This version is used when detailed atom-level information is not required.)
     """
-    highlighted = set()
-    for smarts in PAINS_SMARTS:
+    matched_pains = []
+    for entry in PAINS_DATA:
+        smarts = entry.get("SMARTS")
+        regID = entry.get("regID")
         pattern = Chem.MolFromSmarts(smarts)
-        if pattern is None:
-            continue  # Skip invalid SMARTS
-        matches = mol.GetSubstructMatches(pattern)
-        for match in matches:
-            highlighted.update(match)
-    return sorted(list(highlighted))
+        if pattern and mol.HasSubstructMatch(pattern):
+            matched_pains.append(regID)
+    return matched_pains
 
-""" ==== 2. Processing the Data and Sending the Output ===  """
 
-from rdkit.Chem import Descriptors, rdMolDescriptors
-from rdkit.Chem.QED import qed
+def get_pains_matches_with_atoms(mol):
+    """
+    Check for PAINS matches and return a list of tuples containing the matched atom indices.
+    Each element in the returned list is the tuple (or tuple of tuples) of atom indices
+    for the matched substructure.
+    """
+    matches = []
+    for entry in PAINS_DATA:
+        smarts = entry.get("SMARTS")
+        pattern = Chem.MolFromSmarts(smarts)
+        if pattern and mol.HasSubstructMatch(pattern):
+            match_indices = mol.GetSubstructMatches(pattern)
+            matches.append(match_indices)
+    return matches
+
 
 def lipinski_violations(mol):
-    """Returns the number of Lipinski's Rule of Five violations."""
+    """
+    Returns the number of Lipinski's Rule of Five violations and calculated descriptors.
+    Criteria: MW > 500, LogP > 5, HBD > 5, HBA > 10.
+    """
     mw = Descriptors.MolWt(mol)
     logp = Descriptors.MolLogP(mol)
     hbd = rdMolDescriptors.CalcNumHBD(mol)
@@ -74,54 +80,57 @@ def lipinski_violations(mol):
         hbd > 5,
         hba > 10
     ])
-    return violations
+    return violations, mw, logp, hbd, hba
+
 
 def is_veber(mol):
-    """Checks Veber's rule (rotatable bonds ≤ 10 and TPSA ≤ 140 Å²)."""
+    """
+    Checks Veber's rule and returns a tuple: (veber_pass, rotatable_bonds, tpsa).
+    Criteria: Rotatable Bonds <= 10 and TPSA <= 140.
+    """
     rb = rdMolDescriptors.CalcNumRotatableBonds(mol)
     tpsa = rdMolDescriptors.CalcTPSA(mol)
-    return rb <= 10 and tpsa <= 140
+    veber_pass = rb <= 10 and tpsa <= 140
+    return veber_pass, rb, tpsa
 
-def is_reactive(mol):
-    """Estimate reactivity based on presence of electrophilic groups."""
-    reactive_patterns = [
-        "[O=CN]",         # Isocyanate
-        "[N+]([O-])=O",   # Nitro group
-        "[C#N]",          # Nitrile
-        "[O=CS]",         # Thiocarbonyl
-        "[N=N]",          # Azide/Nitroso
-    ]
-    for smarts in reactive_patterns:
-        pattern = Chem.MolFromSmarts(smarts)
-        if pattern and mol.HasSubstructMatch(pattern):
-            return True
-    return False
 
 def calculate_drug_score(qed_score, lipinski_vio, pains, veber, reactivity):
-    """Composite score from different drug-likeness criteria."""
+    """
+    Composite score calculation.
+    
+    The score starts with the QED score (0–1) and is penalized if:
+      - More than 1 Lipinski violation (–0.2)
+      - PAINS match is found (–0.3)
+      - Veber rule fails (–0.1)
+      - Reactivity is flagged (–0.2)
+    The final score is non-negative.
+    """
     score = qed_score  # Start with QED Score (0-1)
     if lipinski_vio > 1:
         score -= 0.2  # Penalize multiple Lipinski violations
     if pains:
-        score -= 0.3  # PAINS match significantly reduces drug-likeness
+        score -= 0.3  # PAINS match reduces drug-likeness
     if not veber:
         score -= 0.1  # Veber rule failure slightly reduces score
     if reactivity:
-        score -= 0.2  # Reactivity decreases stability (drug-likeness)
-    
-    return max(score, 0.0)  # Ensure the score doesn't go below zero   
+        score -= 0.2  # Reactivity decreases stability
+    return max(score, 0.0)
 
-""" === 3. Designing the Widget User Interface === """
-
-import numpy as np
-from Orange.widgets.widget import OWWidget, Input, Output
-from Orange.widgets import gui
-from Orange.data import Table, Domain, StringVariable, ContinuousVariable
-from PyQt5.QtWidgets import QCheckBox, QPushButton, QComboBox
 
 class DrugFilterWidget(OWWidget):
-    """Orange3 widget for filtering molecules based on drug-likeness rules."""
+    """
+    Orange3 widget for filtering molecules based on drug-likeness rules.
 
+    The widget calculates molecular descriptors (using RDKit) and applies filtering based on:
+      - Lipinski’s Rule of Five (number of violations)
+      - Veber’s Rule (rotatable bonds and TPSA)
+      - A combined Lipinski + Veber criteria
+
+    It also checks for PAINS alerts (problematic substructures) and (optionally) reports
+    the atom indices that match the PAINS substructure patterns.
+
+    The user can select which filtering rule to use and which molecules to forward.
+    """
     name = "Drug Filter"
     description = "Filters molecules using Lipinski, PAINS, Veber, QED scores, and Reactivity."
     category = "Chemoinformatics"
@@ -129,113 +138,196 @@ class DrugFilterWidget(OWWidget):
     priority = 10
 
     inputs = [("Input Table", Table, "set_data")]
-    outputs = [("All Compounds", Table)]
+    outputs = [("Filtered Compounds", Table)]
     want_main_area = False
 
     def __init__(self):
         super().__init__()
         self.data = None
 
-        # GUI Elements
+        # Information label
         self.info_label = gui.label(self.controlArea, self, "Awaiting molecular data...")
 
-        # Lipinski Violation Selection
-        self.lipinski_box = gui.widgetBox(self.controlArea, "Lipinski Rule Settings")
-        self.lipinski_checkbox = QCheckBox("Apply Lipinski's Rule")
-        self.lipinski_threshold = QComboBox()
-        self.lipinski_threshold.addItems(["1", "2", "3+"])
-        self.lipinski_box.layout().addWidget(self.lipinski_checkbox)
-        self.lipinski_box.layout().addWidget(self.lipinski_threshold)
+        # Filtering rule selection
+        self.filter_rule_combo = QComboBox()
+        self.filter_rule_combo.addItems(["Lipinski", "Veber", "Lipinski + Veber", "None"])
+        box_rule = gui.widgetBox(self.controlArea, "Select Filtering Rule")
+        box_rule.layout().addWidget(self.filter_rule_combo)
+        gui.separator(self.controlArea)
 
-        # Additional Drug-Likeness Filters
-        self.pains_checkbox = QCheckBox("Apply PAINS Filter")
-        self.veber_checkbox = QCheckBox("Apply Veber's Rule")
-        self.reactivity_checkbox = QCheckBox("Apply Reactivity Filter")
-        for checkbox in [self.pains_checkbox, self.veber_checkbox, self.reactivity_checkbox]:
-            self.controlArea.layout().addWidget(checkbox)
+        # Molecule selection mode
+        self.selection_combo = QComboBox()
+        self.selection_combo.addItems(["Forward All Molecules", "Within Criteria", "Out of Criteria"])
+        box_sel = gui.widgetBox(self.controlArea, "Molecule Selection")
+        box_sel.layout().addWidget(self.selection_combo)
+        gui.separator(self.controlArea)
 
-        # Filter button
+        # PAINS highlighting checkbox
+        self.highlight_pains_checkbox = QCheckBox("Highlight PAINS Substructures")
+        self.controlArea.layout().addWidget(self.highlight_pains_checkbox)
+        gui.separator(self.controlArea)
+
+        # Process button to trigger filtering
         self.process_button = QPushButton("Filter Molecules")
         self.process_button.clicked.connect(self.filter_molecules)
         self.controlArea.layout().addWidget(self.process_button)
 
-""" ==== 4. Processing the Data and Sending the Output ===  """
+        # Progress bar to monitor processing progress
+        self.progressBar = QProgressBar()
+        self.progressBar.setVisible(False)
+        self.controlArea.layout().addWidget(self.progressBar)
 
     def set_data(self, data):
-        """Handle input data."""
+        """Set the input data table. Assumes the first meta attribute holds the SMILES string."""
         self.data = data
-        if self.data and len(self.data) > 0:
+        if self.data is not None and len(self.data) > 0:
             self.info_label.setText("Input data received. Ready to filter.")
         else:
             self.info_label.setText("No valid data received.")
 
     def filter_molecules(self):
-        """Apply filtering and calculate descriptors."""
-        smiles_column_name = "SMILES"
-        if self.data is None or len(self.data) == 0:
-            self.info_label.setText("No input data to filter.")
+        """Process each molecule: calculate descriptors, apply filtering, and forward the selected set."""
+        # Get user selections
+        filter_rule = self.filter_rule_combo.currentText()  # "Lipinski", "Veber", "Lipinski + Veber", "None"
+        selection_mode = self.selection_combo.currentText()   # "Forward All Molecules", "Within Criteria", "Out of Criteria"
+        highlight_pains = self.highlight_pains_checkbox.isChecked()
+
+        if self.data is None:
             return
 
-        # Assumes that SMILES are stored in the first meta column.
+        # Expect SMILES strings to be in the first meta column
         smiles_column = self.data.metas[:, 0]
-        all_results = []
+        num_molecules = len(smiles_column)
+        results = []
 
-        for smile in smiles_column:
+        # Initialize progress bar
+        self.progressBar.setMaximum(num_molecules)
+        self.progressBar.setValue(0)
+        self.progressBar.setVisible(True)
+
+        for i, smile in enumerate(smiles_column):
+            # Update progress bar
+            self.progressBar.setValue(i + 1)
+
             mol = Chem.MolFromSmiles(smile)
             if not mol:
                 continue
 
+            # Calculate descriptors
             qed_score = qed(mol)
-            pains_match = is_pains(mol)
-            lipinski_vio = lipinski_violations(mol)
-            veber_pass = is_veber(mol)
-            reactive = is_reactive(mol)
-            drug_score = calculate_drug_score(qed_score, lipinski_vio, pains_match, veber_pass, reactive)
-            # Get the highlighted atoms from PAINS matches (if any)
-            highlighted_atoms_list = get_highlighted_atoms(mol)
-            highlighted_atoms_str = ", ".join(map(str, highlighted_atoms_list)) if highlighted_atoms_list else ""
+            lipinski_vio, mw, logp, hbd, hba = lipinski_violations(mol)
+            veber_pass, rb, tpsa = is_veber(mol)
+            reactive = False  # Placeholder for reactivity check
+            drug_score = calculate_drug_score(qed_score, lipinski_vio, bool([]), veber_pass, reactive)
 
-            # Row structure: [SMILES (meta), QED Score, Lipinski Violations, PAINS Match,
-            # Veber Rule, Reactivity, Drug Score, Highlighted Atoms (meta)]
-            all_results.append([
-                smile, 
-                qed_score, 
-                lipinski_vio, 
-                float(pains_match), 
-                float(veber_pass), 
-                float(reactive), 
-                drug_score,
-                highlighted_atoms_str
-            ])
+            # Determine if molecule passes the selected filtering rule
+            if filter_rule == "Lipinski":
+                criteria_pass = (lipinski_vio <= 1)
+            elif filter_rule == "Veber":
+                criteria_pass = veber_pass
+            elif filter_rule == "Lipinski + Veber":
+                criteria_pass = (lipinski_vio <= 1) and veber_pass
+            else:  # "None" filtering rule
+                criteria_pass = True
+            criteria = "Pass" if criteria_pass else "Fail"
 
-        self.send_output_table(all_results, "All Compounds")
+            # Depending on selection mode, decide whether to include the molecule.
+            if selection_mode == "Within Criteria" and not criteria_pass:
+                continue
+            if selection_mode == "Out of Criteria" and criteria_pass:
+                continue
 
-    def send_output_table(self, results, output_name):
+            # PAINS check (with optional atom-level detail)
+            if highlight_pains:
+                pains_matches_detail = get_pains_matches_with_atoms(mol)
+                # Flatten the list of tuples into a set of unique atom indices.
+                all_indices = set()
+                for match in pains_matches_detail:
+                    for sub_match in match:
+                        all_indices.update(sub_match)
+                # Create a comma-separated string of indices (or "None" if no indices were found).
+                pains_atoms = ", ".join(map(str, sorted(all_indices))) if all_indices else "None"
+                pains_flag = 1.0 if all_indices else 0.0
+                # Since we are not using PAINS regIDs in this branch, assign a default value.
+                pains_regids = "None"
+            else:
+                pains_matches = get_pains_matches(mol)
+                pains_regids = ", ".join(pains_matches) if pains_matches else "None"
+                pains_atoms = None
+                pains_flag = 1.0 if pains_matches else 0.0
+
+            # Build a result row (this happens regardless of the PAINS check branch)
+            row = [
+                smile,         # Meta: SMILES
+                qed_score,     # QED Score
+                lipinski_vio,  # Lipinski Violations
+                mw,            # MW
+                logp,          # LogP
+                hbd,           # HBD
+                hba,           # HBA
+                rb,            # Rotatable Bonds
+                tpsa,          # TPSA
+                pains_flag,    # PAINS Match flag (1.0 if match, else 0.0)
+                1.0 if veber_pass else 0.0,  # Veber Rule flag
+                0.0,           # Reactivity (placeholder)
+                drug_score,    # Drug Score
+                pains_regids,  # Meta: PAINS regID
+                criteria       # Meta: Criteria ("Pass"/"Fail")
+            ]
+            if highlight_pains:
+                row.append(pains_atoms)  # Only add the extra meta if highlighting is enabled
+
+            results.append(row)
+
+        # Hide progress bar after processing is complete
+        self.progressBar.setVisible(False)
+        self.send_output_table(results, highlight_pains)
+
+    def send_output_table(self, results, highlight_pains):
         """Convert results into an Orange Table and send it as output."""
         if not results:
-            self.send(output_name, None)
+            self.send("Filtered Compounds", None)
             return
 
-        # Numeric features: columns 1 through 6 (indices 1-6)
-        numeric_data = np.array([row[1:7] for row in results], dtype=float)
-        # Meta data: SMILES (index 0) and Highlighted Atoms (index 7)
-        metas = np.array([[row[0], row[7]] for row in results], dtype=object)
+        # Build the domain.
+        features = [
+            ContinuousVariable("QED Score"),
+            ContinuousVariable("Lipinski Violations"),
+            ContinuousVariable("MW"),
+            ContinuousVariable("LogP"),
+            ContinuousVariable("HBD"),
+            ContinuousVariable("HBA"),
+            ContinuousVariable("Rotatable Bonds"),
+            ContinuousVariable("TPSA"),
+            ContinuousVariable("PAINS Match"),
+            ContinuousVariable("Veber Rule"),
+            ContinuousVariable("Reactivity"),
+            ContinuousVariable("Drug Score")
+        ]
 
-        domain = Domain(
-            [ContinuousVariable("QED Score"),
-             ContinuousVariable("Lipinski Violations"),
-             ContinuousVariable("PAINS Match"),
-             ContinuousVariable("Veber Rule"),
-             ContinuousVariable("Reactivity"),
-             ContinuousVariable("Drug Score")],
-            metas=[StringVariable("SMILES"), StringVariable("Highlighted Atoms")]
-        )
+        # Meta attributes: SMILES, PAINS regID, Criteria, and optionally PAINS Atoms.
+        if highlight_pains:
+            meta_vars = [StringVariable("SMILES"), StringVariable("PAINS regID"),
+                         StringVariable("Criteria"), StringVariable("Highlighted Atoms")]
+            meta_data = np.array([[row[0], row[13], row[14], row[15]] for row in results], dtype=object)
+        else:
+            meta_vars = [StringVariable("SMILES"), StringVariable("PAINS regID"),
+                         StringVariable("Criteria")]
+            meta_data = np.array([[row[0], row[13], row[14]] for row in results], dtype=object)
 
-        data_table = Table.from_numpy(domain, numeric_data, metas=metas)
-        self.send(output_name, data_table)
+        domain = Domain(features, metas=meta_vars)
+        # Numeric data are the features (columns 1 to 12)
+        numeric_data = np.array([row[1:13] for row in results], dtype=float)
+        data_table = Table.from_numpy(domain, numeric_data, metas=meta_data)
+        self.send("Filtered Compounds", data_table)
 
 
+if __name__ == "__main__":
+    # This block is for testing the widget standalone.
+    from AnyQt.QtWidgets import QApplication
+    import sys
 
-
-
-
+    app = QApplication(sys.argv)
+    widget = DrugFilterWidget()
+    widget.show()
+    sys.exit(app.exec_())
