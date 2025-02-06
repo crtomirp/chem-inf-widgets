@@ -1,45 +1,68 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSME Molecular Editor</title>
-    <!-- Load JSME JavaScript -->
-    <script src="jsme.nocache.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSME Molecular Editor - Full Screen</title>
+  <!-- Full-screen styles -->
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
 
-    <script>
-        var jsmeApplet;
+    #jsme_container {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <!-- Load JSME JavaScript -->
+  <script src="jsme.nocache.js"></script>
+  <script>
+    var jsmeApplet;
 
-        function jsmeOnLoad() {
-            try {
-                // Try initializing using JSME
-                jsmeApplet = new JSME("jsme_container", "450px", "450px");
-            } catch (e1) {
-                try {
-                    // Fallback to JSApplet if JSME is not available
-                    jsmeApplet = new JSApplet.JSME("jsme_container", "450px", "450px");
-                } catch (e2) {
-                    console.error("Error initializing JSME applet:", e1, e2);
-                }
-            }
+    function jsmeOnLoad() {
+      try {
+        // Initialize JSME with full-screen dimensions
+        jsmeApplet = new JSME("jsme_container", "100%", "100%");
+      } catch (e1) {
+        try {
+          // Fallback in case JSME is not available
+          jsmeApplet = new JSApplet.JSME("jsme_container", "100%", "100%");
+        } catch (e2) {
+          console.error("Error initializing JSME applet:", e1, e2);
         }
+      }
+    }
 
-        function getSmiles() {
-            if (jsmeApplet) {
-                return jsmeApplet.smiles();
-            } else {
-                console.error("JSME applet not initialized");
-                return "";
-            }
-        }
-    </script>
+    function getSmiles() {
+      if (jsmeApplet) {
+        return jsmeApplet.smiles();
+      } else {
+        console.error("JSME applet not initialized");
+        return "";
+      }
+    }
+
+    function getSmarts() {
+      if (jsmeApplet) {
+        return jsmeApplet.smarts();
+      } else {
+        console.error("JSME applet not initialized");
+        return "";
+      }
+    }
+  </script>
 </head>
 
 <body onload="jsmeOnLoad()">
-    <div id="jsme_container"></div>
+  <div id="jsme_container"></div>
 </body>
 
 </html>
-
-
