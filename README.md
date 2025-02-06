@@ -8,36 +8,6 @@ Below is an example of a `README.md` file for the **chem_inf_widgets** repositor
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-**chem_inf_widgets** is a collection of chemical informatics widgets developed for [Orange](https://orange.biolab.si/) and other Python-based data science workflows. The widgets are all bundled in one file and provide a variety of functionalities—from molecular drawing and property calculation to advanced filtering, fingerprint generation, molecular standardization, and substructure search.
-
-## Features
-
-- **DB MolSketcher**  
-  A JSME-based molecular editor that allows users to draw molecules and automatically compute chemical properties (e.g., molecular weight, LogP, H-bond donors/acceptors, TPSA). It supports customizable JSON configuration files that can include iterative DB key generation with a configurable starting value and user-defined metadata.
-
-- **ChEMBL Bioactivity Retriever**  
-  Retrieves bioactivity data from the ChEMBL database for a given target ID. It processes IC50 values, computes drug properties, and outputs the results as an Orange Data Table for further analysis.
-
-- **Drug Filter**  
-  Filters molecules based on drug-likeness criteria (Lipinski’s Rule of Five, Veber’s Rule, PAINS alerts, and a composite drug score). Users can choose the filtering rule and select whether to forward all molecules, only those that meet the criteria, or those that fail.
-
-- **Fingerprint Calculator**  
-  Computes various types of molecular fingerprints (Morgan, RDKit, MACCS Keys, Atom Pair, Topological Torsion, and Avalon) using RDKit. It also provides visualization features such as histograms and PCA projections of the fingerprint data.
-
-- **MACCS Key Generator**  
-  Converts SMILES strings to MACCS keys and outputs the result as an Orange Data Table.
-
-- **Molecular Standardization**  
-  Reads SMILES strings from an input Orange table and applies a series of standardization operations (e.g., cleanup, normalization, metal disconnection, largest fragment chooser, reionization, uncharging, and tautomer enumeration) to output standardized SMILES.
-
-- **Molecular Viewer**  
-  Displays molecules in a grid layout with customizable image size and number of columns. It also supports optional substructure highlighting and property display based on user selection.
-
-- **SDF Reader**  
-  Analyzes SDF files, allows the user to select specific molecular properties, and outputs the selected data as an Orange Data Table.
-
-- **Substructure Search**  
-  Performs compound searches on an input data table by matching substructures, superstructures, computing similarity scores, or performing exact matches. It also supports interactive drawing of queries using a JSME molecular editor.
 
 ## Installation
 
