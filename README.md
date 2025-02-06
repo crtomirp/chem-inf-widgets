@@ -3,9 +3,6 @@ Chem-Inf-Widgets for Orange3: A set of custom widgets for Orange3 tailored for c
 
 Below is an example of a `README.md` file for the **chem_inf_widgets** repository. You can adjust and expand upon the details as needed.
 
----
-
-```markdown
 # chem_inf_widgets
 
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
