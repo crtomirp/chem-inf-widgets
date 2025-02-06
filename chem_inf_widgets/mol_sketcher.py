@@ -23,7 +23,7 @@ class CustomWebEnginePage(QWebEnginePage):
         print(f"JS Console: {message} (Line {line_number}) in {source_id}")
 
 class OWJSMEMolecularSketcher(widget.OWWidget):
-    name = "DB MolSketcher"
+    name = "Mol Sketcher"
     description = "JSME-based molecular editor for DataBase creation"
     icon = "icons/molsketcher.png"
     priority = 10
@@ -52,9 +52,11 @@ class OWJSMEMolecularSketcher(widget.OWWidget):
     def __init__(self):
         super().__init__()
         
-        self.fields = []
-        self.user_metadata = []
+        self.fields = []           # List of compound properties (from JSON config)
+        self.user_metadata = []    # List of metadata fields (from JSON config)
         self.current_smiles = ""
+        self.dbkey_config = None   # Optional dbkey configuration (if provided)
+        self._dbkey_counter = 1    # Counter for auto-incrementing DB key (modified with "initial" value if provided)
         
         self._setup_jsme()
         self._setup_ui()
@@ -143,14 +145,28 @@ class OWJSMEMolecularSketcher(widget.OWWidget):
             with open(self.json_path, 'r') as f:
                 config = json.load(f)
             
-            self.fields = config.get('fields', [])
+            # --- Handle optional iterative dbkey ---
+            if 'dbkey' in config:
+                self.dbkey_config = config['dbkey']
+                # Initialize the counter with the provided "initial" value, or default to 1
+                self._dbkey_counter = self.dbkey_config.get("initial", 1)
+                # If the dbkey field is not already in the list of fields, insert it as the first field
+                fields_from_config = config.get('fields', [])
+                if not any(field.get('name') == self.dbkey_config.get('name') for field in fields_from_config):
+                    self.fields = [self.dbkey_config] + fields_from_config
+                else:
+                    self.fields = fields_from_config
+            else:
+                self.dbkey_config = None
+                self.fields = config.get('fields', [])
+            
             self.user_metadata = config.get('user_metadata', [])
             
             # Clear existing metadata inputs
             while self.metadata_box.layout().count():
                 item = self.metadata_box.layout().takeAt(0)
-                if widget := item.widget():
-                    widget.deleteLater()
+                if widget_inst := item.widget():
+                    widget_inst.deleteLater()
             
             # Create new metadata inputs
             for meta in self.user_metadata:
@@ -205,6 +221,11 @@ class OWJSMEMolecularSketcher(widget.OWWidget):
                     elif prop_name == 'smiles':
                         compound[field['label']] = smiles
 
+            # --- Add iterative DB key if configured ---
+            if self.dbkey_config is not None:
+                compound[self.dbkey_config['label']] = self._dbkey_counter
+                self._dbkey_counter += 1
+
             for meta in self.user_metadata:
                 compound[meta['label']] = getattr(self, meta['name'], "")
             
@@ -231,9 +252,11 @@ class OWJSMEMolecularSketcher(widget.OWWidget):
         attributes = []
         metas = []
         
+        # Create variables from fields.
+        # Here we check if a field is numeric by looking at its type (for example, "float" or "int").
         for field in self.fields:
             label = field['label']
-            if field.get('type') == 'float' and RDKIT_AVAILABLE:
+            if field.get('type') in ['float', 'int']:
                 var = ContinuousVariable(label)
                 attributes.append(var)
             else:
@@ -254,7 +277,7 @@ class OWJSMEMolecularSketcher(widget.OWWidget):
         
         table = Table.from_numpy(
             domain, 
-            X=np.array(X, dtype=float) if X else np.empty((len(X),0)),
+            X=np.array(X, dtype=float) if X else np.empty((len(X), 0)),
             metas=np.array(M, dtype=object)
         )
         table.name = "Compounds"
