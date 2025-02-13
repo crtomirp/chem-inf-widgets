@@ -19,6 +19,10 @@ setup(
         "Orange3>=3.32.0",  # Dependency for Orange3
         "rdkit",  # Example dependency for chemoinformatics
         "PyQtWebEngine", #
+        "torch==2.3.0",
+        "admet-ai",
+        "admet-ai[web]",
+        "pdfkit"
         # Add additional dependencies here
     ],
     classifiers=[
@@ -45,4 +49,5 @@ setup(
         "Tracker": "https://github.com/crtomirp/chem-inf-widgets/issues",
     },
 )
+
 
