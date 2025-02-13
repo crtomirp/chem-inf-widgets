@@ -1,0 +1,982 @@
+[
+    {
+        "Category": "Physicochemical",
+        "Property": "molecular_weight",
+        "name": "Molecular Weight",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 500.0
+            },
+            "range_2": {
+                "min": 700.0,
+                "max": 1000.0
+            },
+            "range_3": {
+                "min": 1001.0,
+                "max": 10000.0
+            }
+        },
+        "percentile": "molecular_weight_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "logP",
+        "name": "LogP",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 3.0
+            },
+            "range_2": {
+                "min": 4.0,
+                "max": 4.9
+            },
+            "range_3": {
+                "min": 5.0,
+                "max": 200.0
+            }
+        },
+        "percentile": "logP_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "hydrogen_bond_acceptors",
+        "name": "Hydrogen Bond Acceptors",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": NaN
+            }
+        },
+        "percentile": "hydrogen_bond_acceptors_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "hydrogen_bond_donors",
+        "name": "Hydrogen Bond Donors",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "hydrogen_bond_donors_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "Lipinski",
+        "name": "Lipinski Rule of 5",
+        "ranges": {
+            "range_1": {
+                "min": 3.1,
+                "max": 4.0
+            },
+            "range_2": {
+                "min": 2.2,
+                "max": 3.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 2.0
+            }
+        },
+        "percentile": "Lipinski_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "QED",
+        "name": "Quantitative Estimate of Druglikeness (QED)",
+        "ranges": {
+            "range_1": {
+                "min": 0.8,
+                "max": 1.0
+            },
+            "range_2": {
+                "min": 0.31,
+                "max": 0.5
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.3
+            }
+        },
+        "percentile": "QED_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "stereo_centers",
+        "name": "Stereo Centers",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 1.0
+            },
+            "range_2": {
+                "min": 3.1,
+                "max": 4.9
+            },
+            "range_3": {
+                "min": 5.0,
+                "max": 200.0
+            }
+        },
+        "percentile": "stereo_centers_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "tpsa",
+        "name": "Topological Polar Surface Area (TPSA)",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 60.0
+            },
+            "range_2": {
+                "min": 100.0,
+                "max": 140.0
+            },
+            "range_3": {
+                "min": 141.0,
+                "max": 50000.0
+            }
+        },
+        "percentile": "tpsa_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "HIA_Hou",
+        "name": "Human Intestinal Absorption",
+        "ranges": {
+            "range_1": {
+                "min": 0.8,
+                "max": 1.0
+            },
+            "range_2": {
+                "min": 0.11,
+                "max": 0.2
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.1
+            }
+        },
+        "percentile": "HIA_Hou_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "Bioavailability_Ma",
+        "name": "Oral Bioavailability",
+        "ranges": {
+            "range_1": {
+                "min": 0.8,
+                "max": 1.0
+            },
+            "range_2": {
+                "min": 0.11,
+                "max": 0.2
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.1
+            }
+        },
+        "percentile": "Bioavailability_Ma_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "Solubility_AqSolDB",
+        "name": "Aqueous Solubility",
+        "ranges": {
+            "range_1": {
+                "min": -2.0,
+                "max": 5.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": -10.0,
+                "max": -4.0
+            }
+        },
+        "percentile": "Solubility_AqSolDB_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "Lipophilicity_AstraZeneca",
+        "name": "Lipophilicity",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 3.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 5.0,
+                "max": 50.0
+            }
+        },
+        "percentile": "Lipophilicity_AstraZeneca_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "HydrationFreeEnergy_FreeSolv",
+        "name": "Hydration Free Energy",
+        "ranges": {
+            "range_1": {
+                "min": -60.0,
+                "max": -20.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 100.0
+            }
+        },
+        "percentile": "HydrationFreeEnergy_FreeSolv_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "Caco2_Wang",
+        "name": "Cell Effective Permeability",
+        "ranges": {
+            "range_1": {
+                "min": -1.0,
+                "max": 0.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "Caco2_Wang_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "PAMPA_NCATS",
+        "name": "PAMPA Permeability",
+        "ranges": {
+            "range_1": {
+                "min": 0.8,
+                "max": 1.0
+            },
+            "range_2": {
+                "min": 0.11,
+                "max": 0.2
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.1
+            }
+        },
+        "percentile": "PAMPA_NCATS_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Absorption",
+        "Property": "Pgp_Broccatelli",
+        "name": "P-glycoprotein Inhibition",
+        "ranges": {
+            "range_1": {
+                "min": 0.8,
+                "max": 1.0
+            },
+            "range_2": {
+                "min": 0.11,
+                "max": 0.2
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.1
+            }
+        },
+        "percentile": "Pgp_Broccatelli_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Distribution",
+        "Property": "BBB_Martins",
+        "name": "Blood-Brain Barrier Penetration",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.61,
+                "max": 0.80
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "BBB_Martins_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Distribution",
+        "Property": "PPBR_AZ",
+        "name": "Plasma Protein Binding Rate",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "PPBR_AZ_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Distribution",
+        "Property": "VDss_Lombardo",
+        "name": "Volume of Distribution at Steady State",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "VDss_Lombardo_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Excretion",
+        "Property": "Half_Life_Obach",
+        "name": "Half Life",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "Half_Life_Obach_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Excretion",
+        "Property": "Clearance_Hepatocyte_AZ",
+        "name": "Drug Clearance (Hepatocyte)",
+        "ranges": {
+            "range_1": {
+                "min": 3.0,
+                "max": 15.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "Clearance_Hepatocyte_AZ_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Excretion",
+        "Property": "Clearance_Microsome_AZ",
+        "name": "Drug Clearance (Microsome)",
+        "ranges": {
+            "range_1": {
+                "min": 10.0,
+                "max": 50.0
+            },
+            "range_2": {
+                "min": 0.0,
+                "max": 0.0
+            },
+            "range_3": {
+                "min": 0.0,
+                "max": 0.0
+            }
+        },
+        "percentile": "Clearance_Microsome_AZ_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP1A2_Veith",
+        "name": "CYP1A2 Inhibition",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP1A2_Veith_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP2C19_Veith",
+        "name": "CYP2C19 Inhibition",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP2C19_Veith_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP2C9_Veith",
+        "name": "CYP2C9 Inhibition",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP2C9_Veith_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP2D6_Veith",
+        "name": "CYP2D6 Inhibition",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP2D6_Veith_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP3A4_Veith",
+        "name": "CYP3A4 Inhibition",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP3A4_Veith_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP2C9_Substrate_CarbonMangels",
+        "name": "CYP2C9 Substrate",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP2C9_Substrate_CarbonMangels_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP2D6_Substrate_CarbonMangels",
+        "name": "CYP2D6 Substrate",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP2D6_Substrate_CarbonMangels_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Metabolism",
+        "Property": "CYP3A4_Substrate_CarbonMangels",
+        "name": "CYP3A4 Substrate",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "CYP3A4_Substrate_CarbonMangels_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "hERG",
+        "name": "hERG Blocking",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "hERG_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "ClinTox",
+        "name": "Clinical Toxicity",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "ClinTox_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "AMES",
+        "name": "Mutagenicity",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "AMES_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "DILI",
+        "name": "Drug Induced Liver Injury",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "DILI_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "Carcinogens_Lagunin",
+        "name": "Carcinogenicity",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "Carcinogens_Lagunin_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "LD50_Zhu",
+        "name": "Acute Toxicity LD50",
+        "ranges": {
+            "range_1": {
+                "min": 0,
+                "max": 1
+            },
+            "range_2": {
+                "min": 1.5,
+                "max": 2.1
+            },
+            "range_3": {
+                "min": 2.2,
+                "max": 10
+            }
+        },
+        "percentile": "LD50_Zhu_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "Skin_Reaction",
+        "name": "Skin Reaction",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "Skin_Reaction_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-AR",
+        "name": "Androgen Receptor (Full Length)",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-AR_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-AR-LBD",
+        "name": "Androgen Receptor (Ligand Binding Domain)",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-AR-LBD_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-AhR",
+        "name": "Aryl Hydrocarbon Receptor",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-AhR_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-Aromatase",
+        "name": "Aromatase",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-Aromatase_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-ER",
+        "name": "Estrogen Receptor (Full Length)",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-ER_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-ER-LBD",
+        "name": "Estrogen Receptor (Ligand Binding Domain)",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-ER-LBD_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "NR-PPAR-gamma",
+        "name": "Peroxisome Proliferator-Activated Receptor Gamma",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "NR-PPAR-gamma_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "SR-ARE",
+        "name": "Nuclear Factor (Erythroid-Derived 2)-Like 2/Antioxidant Responsive Element",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "SR-ARE_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "SR-ATAD5",
+        "name": "ATPase Family AAA Domain-Containing Protein 5 (ATAD5)",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "SR-ATAD5_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "SR-HSE",
+        "name": "Heat Shock Factor Response Element",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "SR-HSE_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "SR-MMP",
+        "name": "Mitochondrial Membrane Potential",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "SR-MMP_drugbank_approved_percentile"
+    },
+    {
+        "Category": "Toxicity",
+        "Property": "SR-p53",
+        "name": "Tumor Protein p53",
+        "ranges": {
+            "range_1": {
+                "min": 0.0,
+                "max": 0.2
+            },
+            "range_2": {
+                "min": 0.5,
+                "max": 0.8
+            },
+            "range_3": {
+                "min": 0.81,
+                "max": 1.0
+            }
+        },
+        "percentile": "SR-p53_drugbank_approved_percentile"
+    }
+]
