@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="style.min.css" rel="stylesheet" type="text/css">
+  <title>Test Bootstrap Styling</title>
+  <script type="text/javascript" src="jsme.nocache.js"></script>
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    #appletContainer {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script>
+    var jsmeApplet;
+    function jsmeOnLoad() {
+      // Using "100%" for both width and height to create a full-screen panel.
+      jsmeApplet = new JSApplet.JSME("appletContainer", "100%", "100%", {
+        options: "query,hydrogens"
+      });
+    }
+    
+       function getSmiles() {
+      if (jsmeApplet) {
+        return jsmeApplet.smiles();
+      } else {
+        console.error("JSME applet not initialized");
+        return "";
+      }
+    }
+
+    function getSmarts() {
+      if (jsmeApplet) {
+        return jsmeApplet.smarts();
+      } else {
+        console.error("JSME applet not initialized");
+        return "";
+      }
+    }
+    
+  </script>
+</head>
+<body onload="jsmeOnLoad()">
+  <div id="appletContainer"></div>
+</body>
+</html>
+
