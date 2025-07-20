@@ -1,0 +1,9 @@
+SMILES
+C[S+2]([O-])([O-])CC
+CC[S@](=O)C'
+C[P+](CC)(N)N'
+CN=N#N'
+C=N#N'
+[N-]=[C+]C'
+[nH]1c(=[N+](C)C)cccc1
+NC=C-C=[N+](C)C'
