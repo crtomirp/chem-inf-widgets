@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="#000000"/>
+  <meta name="description" content="Ketcher is a web-based chemical structure editor"/>
+  <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png"/>
+  <link rel="manifest" href="./manifest.json"/>
+  <title>Ketcher v3.1</title>
+
+  <!-- Load Ketcher’s bundled JavaScript and CSS -->
+  <script defer src="./static/js/main.js"></script>
+  <link href="./static/css/main.css" rel="stylesheet">
+
+  <!-- Polyfill for Object.hasOwn -->
+  <script>
+    if (!Object.hasOwn) {
+      Object.hasOwn = function(obj, prop) {
+        return Object.prototype.hasOwnProperty.call(obj, prop);
+      };
+    }
+  </script>
+
+  <!-- Qt WebChannel integration -->
+  <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Initialize QWebChannel and expose the Python bridge
+      new QWebChannel(qt.webChannelTransport, function(channel) {
+        window.bridge = channel.objects.bridge;
+      });
+
+      // Locate Ketcher instance and expose as window.ketcher
+      var attempts = 0;
+      var maxAttempts = 50;
+      var interval = setInterval(function() {
+        var instance = window.ketcher || window.Ketcher || window.ketcherEditor || window._ketcherInstance;
+        if (instance && typeof instance.getMolfile === 'function') {
+          window.ketcher = instance;
+          console.log("Ketcher instance found and exposed as window.ketcher");
+          clearInterval(interval);
+        } else {
+          attempts++;
+          if (attempts >= maxAttempts) {
+            console.error("Ketcher instance not found. Ensure it is initialized correctly.");
+            clearInterval(interval);
+          }
+        }
+      }, 100);
+    });
+  </script>
+
+  <!-- Additional style for positioning our button -->
+  <style>
+    /* Position the button fixed at the bottom center */
+    #smiles-button {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 16px;
+      z-index: 1000;
+    }
+    
+    /* Style for the SMILES output container */
+    #smiles-container {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <!-- Ketcher mounts its interface into this element -->
+  <div id="root"></div>
+
+  <!-- SMILES Button and container -->
+  <!-- <button id="smiles-button">Get SMILES</button> -->
+  <div id="smiles-container"></div>
+
+  <script>
+    // Click handler for SMILES retrieval via WebChannel
+    document.addEventListener("DOMContentLoaded", function() {
+      var btn = document.getElementById('smiles-button');
+      btn.addEventListener('click', function() {
+        if (window.ketcher && typeof window.ketcher.getSmiles === 'function') {
+          window.ketcher.getSmiles()
+            .then(function(smiles) {
+              document.getElementById('smiles-container').innerText = "SMILES: " + smiles;
+            })
+            .catch(function(error) {
+              console.error(error);
+              document.getElementById('smiles-container').innerText = "Error converting structure to SMILES.";
+            });
+        } else {
+          document.getElementById('smiles-container').innerText = "Ketcher instance not yet loaded.";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
