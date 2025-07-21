@@ -26,6 +26,10 @@ setup(
         "mordred",
         "xhtml2pdf",
         "torch==2.3.0",
+        "admet-ai",
+        "admet-ai[web]",
+        "scikit-fingerprints",
+        "tblite"
         # Add additional dependencies here
     ],
     classifiers=[
