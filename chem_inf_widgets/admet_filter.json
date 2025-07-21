@@ -1,0 +1,58 @@
+[
+    {
+        "Category": "Physicochemical",
+        "Property": "molecular_weight",
+        "name": "Molecular Weight",
+        "ranges": {
+            "range": {
+                "min": 0,
+                "max": 1000
+            }
+        }
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "logP",
+        "name": "LogP",
+        "ranges": {
+            "range": {
+                "min": -5,
+                "max": 20
+            }
+        }
+    },
+    {
+        "Category": "Physicochemical",
+        "Property": "tpsa",
+        "name": "TPSA",
+        "ranges": {
+            "range": {
+                "min": 0,
+                "max": 300
+            }
+        }
+    },
+    {
+        "Category": "Absorption",
+        "Property": "HIA_Hou",
+        "name": "Human Intestinal Absorption",
+        "ranges": {
+            "range": {
+                "min": 0.0,
+                "max": 1.0
+            }
+        }
+    },
+    {
+        "Category": "Absorption",
+        "Property": "Bioavailability_Ma",
+        "name": "Oral Bioavailability",
+        "ranges": {
+            "range": {
+                "min": 0.0,
+                "max": 1.0
+            }
+        }
+    }
+]
+
