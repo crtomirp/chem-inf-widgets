@@ -93,7 +93,7 @@
 
    Start Orange by running:
    ```bash
-   python -m Orange.canvasset
+   python -m Orange.canvas
    ```
    *(Note: If your Orange installation uses a different module name such as `Orange.canvas`, adjust the command accordingly.)*
 
