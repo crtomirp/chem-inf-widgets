@@ -5,7 +5,7 @@ dependencies:
   # --- Core runtime ---
   - python=3.12
   - pip
-  - rdkit
+  - rdkit>=2024.03
   - numpy
   - pandas
   - scipy
@@ -13,29 +13,27 @@ dependencies:
   - pillow
   - networkx
 
-  # --- Notebook + widgets (optional but recommended) ---
+  # --- Notebook + widgets ---
   - jupyterlab
   - notebook
+  - ipykernel
   - ipywidgets
-  - nodejs           # helps when building/using lab extensions
+  - nodejs>=18   # helpful for widget/lab extension dev; remove if you don't need it
 
-  # --- Viz utilities (optional) ---
+  # --- Viz (optional but nice) ---
   - matplotlib
   - plotly
   - py3dmol
 
-  # --- Dev / QA (for contributors) ---
+  # --- Dev / QA ---
   - pytest
   - black
   - isort
   - ruff
   - pre-commit
-  - build            # python -m build
   - twine
+  - python-build   # << use this instead of 'build' to avoid solver conflicts
 
-  # If setup.py / pyproject lists any pip-only packages, add them below.
+  # --- Install your repo in editable mode ---
   - pip:
-      # Editable install of your repo (assumes you run `conda env create` in repo root)
       - -e .
-      # Example of pinning/adding any pip-only deps your setup.py might have:
-      # - some-pypi-only-package>=1.2
