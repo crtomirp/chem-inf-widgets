@@ -1,0 +1,41 @@
+name: chem-inf-widgets
+channels:
+  - conda-forge
+dependencies:
+  # --- Core runtime ---
+  - python=3.12
+  - pip
+  - rdkit
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - pillow
+  - networkx
+
+  # --- Notebook + widgets (optional but recommended) ---
+  - jupyterlab
+  - notebook
+  - ipywidgets
+  - nodejs           # helps when building/using lab extensions
+
+  # --- Viz utilities (optional) ---
+  - matplotlib
+  - plotly
+  - py3dmol
+
+  # --- Dev / QA (for contributors) ---
+  - pytest
+  - black
+  - isort
+  - ruff
+  - pre-commit
+  - build            # python -m build
+  - twine
+
+  # If setup.py / pyproject lists any pip-only packages, add them below.
+  - pip:
+      # Editable install of your repo (assumes you run `conda env create` in repo root)
+      - -e .
+      # Example of pinning/adding any pip-only deps your setup.py might have:
+      # - some-pypi-only-package>=1.2
