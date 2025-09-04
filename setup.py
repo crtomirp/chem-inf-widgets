@@ -28,8 +28,7 @@ setup(
         "torch==2.3.0",
         "admet-ai",
         "admet-ai[web]",
-        "scikit-fingerprints",
-        "tblite"
+        "scikit-fingerprints"
         # Add additional dependencies here
     ],
     classifiers=[
