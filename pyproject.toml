@@ -1,0 +1,50 @@
+[project]
+name = "chem_inf_widgets"
+version = "0.1.0"
+description = "Custom chemoinformatics widgets for Orange3"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "Crtomir Podlipnik", email = "crtomir.podlipnik@fkkt.uni-lj.si" }
+]
+keywords = [ "chemoinformatics", "orange3", "widgets", "sdf" ]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Chemistry",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10"
+]
+requires-python = ">=3.8"
+dependencies = [
+  "setuptools",
+  "Orange3>=3.32.0",
+  "rdkit",
+  "PyQtWebEngine",
+  "requests-cache",
+  "pdfkit",
+  "pubchempy",
+  "mordred",
+  "xhtml2pdf",
+  "torch==2.3.0",
+  "admet-ai",
+  "admet-ai[web]",
+  "scikit-fingerprints"
+]
+
+[project.urls]
+documentation = "https://github.com/crtomirp/chem-inf-widgets#readme"
+source = "https://github.com/crtomirp/chem-inf-widgets"
+tracker = "https://github.com/crtomirp/chem-inf-widgets/issues"
+
+[tool.setuptools.packages.find]
+include = [ "chem_inf_widgets*" ]
+
+[tool.setuptools]
+include-package-data = true
+
+[project.entry-points."orange.widgets"]
+Chemoinformatics = "chem_inf_widgets"
