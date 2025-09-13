@@ -1,0 +1,22 @@
+{
+    "dbkey": {
+        "name": "dbkey",
+        "label": "DB Key",
+        "type": "int",
+        "initial": 100
+    },
+    "fields": [
+        {"name": "smiles", "label": "SMILES"},
+        {"name": "mw", "label": "Molecular Weight", "type": "float"},
+        {"name": "logp", "label": "LogP", "type": "float"},
+        {"name": "hbd", "label": "H-Bond Donors", "type": "int"},
+	    {"name": "hba", "label": "H-Bond Acceptors", "type": "int"},
+        {"name": "inchi", "label": "InChI"},
+        {"name": "inchikey", "label": "InChI Key"}
+    ],
+    "user_metadata": [
+        {"name": "catalog_number", "label": "Catalog Number"},
+        {"name": "batch_id", "label": "Batch ID"},
+        {"name": "Name", "label": "name"}
+    ]
+}
