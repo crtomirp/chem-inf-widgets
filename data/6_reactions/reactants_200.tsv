@@ -1,0 +1,201 @@
+SMILES	name
+C	alkane C1
+CO	alcohol C1-ol
+CN	amine C1-amine
+CBr	alkyl bromide C1
+CCl	alkyl chloride C1
+CI	alkyl iodide C1
+CC	alkane C2
+CCO	alcohol C2-ol
+CCN	amine C2-amine
+CCBr	alkyl bromide C2
+CCCl	alkyl chloride C2
+CCI	alkyl iodide C2
+C=C	alkene C2
+C#C	alkyne C2
+CCC	alkane C3
+CCCO	alcohol C3-ol
+CCCN	amine C3-amine
+CCCBr	alkyl bromide C3
+CCCCl	alkyl chloride C3
+CCCI	alkyl iodide C3
+CC=C	alkene C3
+CC#C	alkyne C3
+CCCC	alkane C4
+CCCCO	alcohol C4-ol
+CCCCN	amine C4-amine
+CCCCBr	alkyl bromide C4
+CCCCCl	alkyl chloride C4
+CCCCI	alkyl iodide C4
+CCC=C	alkene C4
+CCC#C	alkyne C4
+CCCCC	alkane C5
+CCCCCO	alcohol C5-ol
+CCCCCN	amine C5-amine
+CCCCCBr	alkyl bromide C5
+CCCCCCl	alkyl chloride C5
+CCCCCI	alkyl iodide C5
+CCCC=C	alkene C5
+CCCC#C	alkyne C5
+CCCCCC	alkane C6
+CCCCCCO	alcohol C6-ol
+CCCCCCN	amine C6-amine
+CCCCCCBr	alkyl bromide C6
+CCCCCCCl	alkyl chloride C6
+CCCCCCI	alkyl iodide C6
+CCCCC=C	alkene C6
+CCCCC#C	alkyne C6
+CCCCCCC	alkane C7
+CCCCCCCO	alcohol C7-ol
+CCCCCCCN	amine C7-amine
+CCCCCCCBr	alkyl bromide C7
+CCCCCCCCl	alkyl chloride C7
+CCCCCCCI	alkyl iodide C7
+CCCCCC=C	alkene C7
+CCCCCCCC	alkane C8
+CCCCCCCCO	alcohol C8-ol
+CCCCCCCCN	amine C8-amine
+CCCCCCCCBr	alkyl bromide C8
+CCCCCCCCCl	alkyl chloride C8
+CCCCCCCCI	alkyl iodide C8
+CCCCCCC=C	alkene C8
+CC(C)O	isopropanol
+CCOC	ethyl methyl ether
+CC(=O)O	acetic acid
+CCC(=O)O	propionic acid
+O	water
+N	ammonia
+C1CCOC1	tetrahydrofuran
+C=CC	propene (alt)
+C=CCC	1-butene
+CC=CC	2-butene
+CC#CC	2-butyne
+c1ccc(F)cc1	fluorobenzene
+c1ccc(Cl)cc1	chlorobenzene
+c1ccc(Br)cc1	bromobenzene
+c1ccc(I)cc1	iodobenzene
+c1ccc(C)cc1	methylbenzene
+c1ccc(OC)cc1	methoxybenzene
+c1ccc(O)cc1	hydroxybenzene
+c1ccc(N)cc1	aminobenzene
+c1ccc(C(F)(F)F)cc1	trifluoromethylbenzene
+c1ccc([N+](=O)[O-])cc1	nitrobenzene
+c1ccc(C#N)cc1	cyanobenzene
+c1cc(F)ccc1	fluorobenzene
+c1cc(Cl)ccc1	chlorobenzene
+c1cc(Br)ccc1	bromobenzene
+c1cc(I)ccc1	iodobenzene
+c1cc(C)ccc1	methylbenzene
+c1cc(OC)ccc1	methoxybenzene
+c1cc(O)ccc1	hydroxybenzene
+c1cc(N)ccc1	aminobenzene
+c1cc(C(F)(F)F)ccc1	trifluoromethylbenzene
+c1cc([N+](=O)[O-])ccc1	nitrobenzene
+c1cc(C#N)ccc1	cyanobenzene
+c1c(F)cccc1	fluorobenzene
+c1c(Cl)cccc1	chlorobenzene
+c1c(Br)cccc1	bromobenzene
+c1c(I)cccc1	iodobenzene
+c1c(C)cccc1	methylbenzene
+c1c(OC)cccc1	methoxybenzene
+c1c(O)cccc1	hydroxybenzene
+c1c(N)cccc1	aminobenzene
+c1c(C(F)(F)F)cccc1	trifluoromethylbenzene
+c1c([N+](=O)[O-])cccc1	nitrobenzene
+c1c(C#N)cccc1	cyanobenzene
+c1ccc(B(O)O)cc1	phenylboronic acid (isomer)
+c1cc(B(O)O)ccc1	phenylboronic acid (isomer)
+c1c(B(O)O)cccc1	phenylboronic acid (isomer)
+OB(c1ccccc1)O	phenylboronic acid (OB form)
+OB(c1ccc(C)cc1)O	p-tolylboronic acid
+OB(c1ccc(OC)cc1)O	p-anisylboronic acid
+OB(c1cc(F)ccc1)O	p-fluorophenylboronic acid
+OB(c1cc(Cl)ccc1)O	p-chlorophenylboronic acid
+OB(c1cc(Br)ccc1)O	p-bromophenylboronic acid
+n1ccccc1	pyridine
+c1ncccc1	pyridine (isomer)
+c1ccncc1	pyridine (isomer2)
+c1ncncc1	pyrimidine
+c1ccnc(c1)Cl	4-chloropyridine
+c1ccnc(c1)Br	4-bromopyridine
+c1ccnc(c1)I	4-iodopyridine
+c1ccncc1N	4-aminopyridine
+c1ccncc1O	4-hydroxypyridine
+c1ccsc1	thiophene
+c1ccoc1	furan
+c1ccc2c(c1)[nH]ccc2	indole
+c1ccc2c(c1)[nH]cc2Br	bromoindole
+c1ccccc1CO	benzyl alcohol
+c1ccccc1CCl	benzyl chloride
+c1ccccc1CBr	benzyl bromide
+c1ccccc1CI	benzyl iodide
+c1ccccc1CCN	phenethylamine
+c1ccccc1CCO	phenethyl alcohol
+N1CCCC1	pyrrolidine
+N1CCCCC1	piperidine
+N1CCOCC1	morpholine
+CCNCC	diethylamine
+CCN(C)C	triethylamine (tertiary)
+N1CCN(CC1)C	dimethylpiperazine
+c1ccc(C1)cc1	para-alkyl benzene var1
+c1ccc(C2)cc1	para-alkyl benzene var2
+c1ccc(C3)cc1	para-alkyl benzene var3
+c1ccc(C4)cc1	para-alkyl benzene var4
+c1ccc(C5)cc1	para-alkyl benzene var5
+c1ccc(C6)cc1	para-alkyl benzene var6
+c1ccc(C7)cc1	para-alkyl benzene var7
+c1ccc(C8)cc1	para-alkyl benzene var8
+c1ccc(C0)cc1	para-alkyl benzene var9
+c1ccc(C1)cc1	para-alkyl benzene var10
+c1ccc(C2)cc1	para-alkyl benzene var11
+c1ccc(C3)cc1	para-alkyl benzene var12
+c1ccc(C4)cc1	para-alkyl benzene var13
+c1ccc(C5)cc1	para-alkyl benzene var14
+c1ccc(C6)cc1	para-alkyl benzene var15
+c1ccc(C7)cc1	para-alkyl benzene var16
+c1ccc(C8)cc1	para-alkyl benzene var17
+c1ccc(C0)cc1	para-alkyl benzene var18
+c1ccc(C1)cc1	para-alkyl benzene var19
+c1ccc(C2)cc1	para-alkyl benzene var20
+c1ccc(C3)cc1	para-alkyl benzene var21
+c1ccc(C4)cc1	para-alkyl benzene var22
+c1ccc(C5)cc1	para-alkyl benzene var23
+c1ccc(C6)cc1	para-alkyl benzene var24
+c1ccc(C7)cc1	para-alkyl benzene var25
+c1ccc(C8)cc1	para-alkyl benzene var26
+c1ccc(C0)cc1	para-alkyl benzene var27
+c1ccc(C1)cc1	para-alkyl benzene var28
+c1ccc(C2)cc1	para-alkyl benzene var29
+c1ccc(C3)cc1	para-alkyl benzene var30
+c1ccc(C4)cc1	para-alkyl benzene var31
+c1ccc(C5)cc1	para-alkyl benzene var32
+c1ccc(C6)cc1	para-alkyl benzene var33
+c1ccc(C7)cc1	para-alkyl benzene var34
+c1ccc(C8)cc1	para-alkyl benzene var35
+c1ccc(C0)cc1	para-alkyl benzene var36
+c1ccc(C1)cc1	para-alkyl benzene var37
+c1ccc(C2)cc1	para-alkyl benzene var38
+c1ccc(C3)cc1	para-alkyl benzene var39
+c1ccc(C4)cc1	para-alkyl benzene var40
+c1ccc(C5)cc1	para-alkyl benzene var41
+c1ccc(C6)cc1	para-alkyl benzene var42
+c1ccc(C7)cc1	para-alkyl benzene var43
+c1ccc(C8)cc1	para-alkyl benzene var44
+c1ccc(C0)cc1	para-alkyl benzene var45
+c1ccc(C1)cc1	para-alkyl benzene var46
+c1ccc(C2)cc1	para-alkyl benzene var47
+c1ccc(C3)cc1	para-alkyl benzene var48
+c1ccc(C4)cc1	para-alkyl benzene var49
+c1ccc(C5)cc1	para-alkyl benzene var50
+c1ccc(C6)cc1	para-alkyl benzene var51
+c1ccc(C7)cc1	para-alkyl benzene var52
+c1ccc(C8)cc1	para-alkyl benzene var53
+c1ccc(C0)cc1	para-alkyl benzene var54
+c1ccc(C1)cc1	para-alkyl benzene var55
+c1ccc(C2)cc1	para-alkyl benzene var56
+c1ccc(C3)cc1	para-alkyl benzene var57
+c1ccc(C4)cc1	para-alkyl benzene var58
+c1ccc(C5)cc1	para-alkyl benzene var59
+c1ccc(C6)cc1	para-alkyl benzene var60
+c1ccc(C7)cc1	para-alkyl benzene var61
+c1ccc(C8)cc1	para-alkyl benzene var62

@@ -1,0 +1,27 @@
+SMILES	name
+CO	methanol
+CCO	ethanol
+CCCO	1-propanol
+CCN	ethylamine
+CC(=O)O	acetic acid
+CCC(=O)O	propionic acid
+CCBr	ethyl bromide
+CCCl	ethyl chloride
+CCI	ethyl iodide
+C=C	ethene
+C=CC	propene
+C#C	acetylene
+CC#C	1-propyne
+c1ccccc1	benzene
+c1ccc(Br)cc1	bromobenzene
+c1ccc(Cl)cc1	chlorobenzene
+c1ccc(I)cc1	iodobenzene
+c1ccc(B(O)O)cc1	phenylboronic acid
+c1ccc(N)cc1	aniline
+c1ccc(O)cc1	phenol
+c1ccnc(c1)Br	4-bromopyridine
+c1ccc(C#C)cc1	phenylacetylene
+c1ccccc1C=C	styrene
+N1CCCC1	pyrrolidine
+N1CCCCC1	piperidine
+N1CCOCC1	morpholine

@@ -1,0 +1,6 @@
+name	smirks	weight
+Suzuki_ArylAryl	[c:1][Cl,Br,I:2].[c:3][B:4]([O:5])[O:6]>>[c:1][c:3]	1.2
+Buchwald_Primary_Amine	[c:1][Cl,Br,I:2].[N:3;H2][*:4]>>[c:1][N:3][*:4]	1.0
+Buchwald_Secondary_Amine	[c:1][Cl,Br,I:2].[N:3;H1]([*:4])[*:5]>>[c:1][N:3]([*:4])[*:5]	0.9
+Sonogashira_Terminal_Alkyne	[c:1][Cl,Br,I:2].[C:3]#[C:4][H]>>[c:1][C:3]#[C:4]	0.8
+Heck_Alkene_Vinylation	[c:1][Cl,Br,I:2].[C:3]=[C:4]>>[c:1][C:3]=[C:4]	0.7
