@@ -34,6 +34,3 @@ dependencies:
   - twine
   - python-build   # << use this instead of 'build' to avoid solver conflicts
 
-  # --- Install your repo in editable mode ---
-  - pip:
-      - -e .
